@@ -1,0 +1,29 @@
+<%- include("partials/authHeader.ejs") %>
+<form class="box" action="/register" method="POST">
+    <!--Tittle-->
+        <h3 class="title is-3">Sign-Up</h3>
+    <!--Email Field-->
+        <div class="field">
+            <label class="label" for="email">E-mail</label>
+            <div class="control has-icons-left">
+                <input type="email" name="username" class="input" required>
+                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+            </div>
+        </div>
+    <!--Passw Field-->
+        <div class="field">
+            <label class="label" for="password">Password</label>
+            <div class="control has-icons-left">
+                <input type="password" name="password" class="input" required minlength="8" maxlength="16">
+                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+            </div>
+            <p class="help is-info" id="helper">Min 8 digits & Max 16 digits</p>
+        </div>
+    <!--Submit Btn-->
+        <div class="field">
+            <button class="button is-info is-rounded">Submit</button>
+        </div>
+    <!--Query-->
+        <p>Already have an account?</p>
+        <a href="/login">Login here</a>
+<%- include("partials/authFooter.ejs") %>

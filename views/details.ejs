@@ -1,0 +1,49 @@
+<%- include("partials/authHeader.ejs") %>
+<form class="box" action="/details" method="POST">
+    <!--Tittle-->
+        <h3 class="title is-3">Personal Details</h3>
+    <!--Name Field-->
+        <div class="field">
+            <label class="label" for="name">Full Name</label>
+            <div class="control has-icons-left">
+                <input type="text" name="name" class="input" required>
+                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+            </div>
+        </div>
+    <!--Email Field-->
+        <div class="field">
+            <label class="label" for="email">E-mail</label>
+            <div class="control has-icons-left">
+                <input type="email" name="username" class="input" required>
+                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+            </div>
+        </div>
+    <!--Blood Field-->
+        <div class="field">
+            <label class="label" for="blood">Blood Group</label>
+            <div class="control has-icons-left">
+                <input type="text" name="blood" class="input" required minlength="2" maxlength="2">
+                <span class="icon is-small is-left"><i class="fa fa-tint" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    <!--Contact Field-->
+        <div class="field">
+            <label class="label" for="contact">Contact Number</label>
+            <div class="control has-icons-left">
+                <input type="string" name="contact" class="input" required minlength="10" maxlength="10">
+                <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    <!--Description Field-->
+        <div class="field">
+            <label class="label" for="description">Medical Description (OPTIONAL)</label>
+            <div class="control has-icons-left">
+                <input type="text" name="description" class="input">
+                <span class="icon is-small is-left"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    <!--Submit Btn-->
+        <div class="field">
+            <button class="button is-info is-rounded">Submit</button>
+        </div>
+<%- include("partials/authFooter.ejs") %>

@@ -1,0 +1,29 @@
+.is-half img{
+    float: left;
+    padding: 0px !important;
+    padding-top: 15px;
+}
+.header{
+	position: relative;
+    top: 20px;
+ 	font-family: 'Bangers', cursive;
+}
+body, .hero, html{
+    background: linear-gradient(to left, #4776E6 , #8E54E9);
+}
+
+.hero-body{
+	font-family: 'Comfortaa', cursive;
+	padding-top: 0px !important;
+	line-height: 1.8
+}
+
+.tableHead{
+    background-color: coral;
+}
+table{
+    margin-top: 1.5em;
+}
+#nav{
+    min-height: 5.5em
+}
