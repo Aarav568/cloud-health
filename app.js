@@ -30,8 +30,25 @@ app.set("view engine", "ejs")
 /*------------------------GET----------------------------- */
 
 
+app.get("/contact", (req, res) => {
+    res.render("contact")
+})
+
+app.get("/dash", (req, res) => {
+    res.render("dash")
+})
+
+app.get("/service", (req, res) => {
+    res.render("service")
+})
+
+
 app.get("/", (req, res) => {
     res.render("index")
+})
+
+app.get("/about", (req, res) => {
+    res.render("about")
 })
 
 app.get("/register", (req, res) => {
@@ -100,6 +117,6 @@ app.post("/details", (req, res) =>{
 /*-------------------------------------Routes END---------------------------------- */
 
 /*-------------------------------------Server Int--------------------------------- */
-app.listen(process.env.PORT || 3000 , process.env.IP, () => {
+app.listen("3000", () => {
     console.log("server started")
 })

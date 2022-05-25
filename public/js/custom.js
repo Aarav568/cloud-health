@@ -45,27 +45,27 @@
     Owl Carousel
   -------------------------------------------------------------------------------*/
     
-   $(document).ready(function() {
-    $("#screenshot-carousel").owlCarousel({
-      items : 4,
-      itemsDesktop : [1199,3],
-      itemsDesktopSmall : [979,3],
-      slideSpeed: 300,
-    });
-  });
+  //  $(document).ready(function() {
+  //   $("#screenshot-carousel").owlCarousel({
+  //     items : 4,
+  //     itemsDesktop : [1199,3],
+  //     itemsDesktopSmall : [979,3],
+  //     slideSpeed: 300,
+  //   });
+  // });
   
   
-   $(document).ready(function() {
-    $("#about-carousel").owlCarousel({
-      autoPlay: 6000,
-      items : 1,
-      itemsDesktop : [1199,1],
-      itemsDesktopSmall : [979,1],
-      itemsTablet: [768,1],
-      itemsTabletSmall: false,
-      itemsMobile : [479,1],
-    });
-  });
+  //  $(document).ready(function() {
+  //   $("#about-carousel").owlCarousel({
+  //     autoPlay: 6000,
+  //     items : 1,
+  //     itemsDesktop : [1199,1],
+  //     itemsDesktopSmall : [979,1],
+  //     itemsTablet: [768,1],
+  //     itemsTabletSmall: false,
+  //     itemsMobile : [479,1],
+  //   });
+  // });
 
 
 
