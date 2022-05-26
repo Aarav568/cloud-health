@@ -8,9 +8,8 @@ body{
 }
 #head{
   float: left;
-      position: relative;
-    bottom: 6px;
-    left: 11px;
+    position: relative;
+    left: 25px;
 }
 
 .hero{
@@ -24,6 +23,11 @@ header{
   padding: 20px;
   width: 100%;
   height: 70px;
+}
+
+.left_area{
+  position: relative;
+  right: 25px;
 }
 
 .left_area h3{

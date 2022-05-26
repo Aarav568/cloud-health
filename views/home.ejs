@@ -4,7 +4,7 @@
   <div class="notification is-success">
 
     <%if(user.username.includes("@cloudhealth")) {%>
-      <p>Hello Doctor! Have a great day!</p>
+      <p>Hello Doctor! How are you doing today?</p>
     <%} else {%> 
       <p>Welcome to Cloud Health, what can we do for you today?</p>
     <%}%>
@@ -35,7 +35,7 @@
         </article>
       </a>
     <%} else {%> 
-      <a class="tile is-parent" href="#">
+      <a class="tile is-parent" href="/call ">
         <article class="tile is-child box notification is-danger">
           <p class="title">Call a Doctor</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
@@ -50,7 +50,7 @@
           </article>
         </a>
     <%} else {%> 
-        <a class="tile is-parent" href="#">
+        <a class="tile is-parent" href="/documents">
           <article class="tile is-child box notification is-warning">
             <p class="title">Submit Medical Documents</p>
             <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>

@@ -29,27 +29,31 @@ app.use(function(req, res, next){
     res.locals.user = req.user;
     next();
 });
+function isLoggedIn(req, res, next) {
+    if (req.user) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 /*-------------------------------------Routes---------------------------------- */
 
 /*------------------------GET----------------------------- */
 
-app.get("/logo", (req, res) => {
-    res.render("logo")
-})
-app.get("/history", (req, res) => {
+app.get("/history", isLoggedIn, (req, res) => {
     res.render("history")
 })
-app.get("/call", (req, res) => {
+app.get("/call", isLoggedIn, (req, res) => {
     res.render("call")
 })
-app.get("/issue", (req, res) => {
+app.get("/issue", isLoggedIn, (req, res) => {
     res.render("issue")
 })
-app.get("/medical", (req, res) => {
+app.get("/medical", isLoggedIn, (req, res) => {
     res.render("medical")
 })
-app.get("/appointment", (req, res) => {
+app.get("/appointment", isLoggedIn, (req, res) => {
     if(req.user.username.includes("@cloudhealth.com")){
         res.render("aptDoctor")
     } else {
@@ -59,7 +63,7 @@ app.get("/appointment", (req, res) => {
 app.get("/registerdoctor", (req, res) => {
     res.render("register", {user: "doctor"})
 })
-app.get("/account",function(req, res ) {
+app.get("/account", isLoggedIn ,function(req, res ) {
     console.log("in")
     User.findById(req.user._id, (err, doc) => {
         if(err){
@@ -70,11 +74,11 @@ app.get("/account",function(req, res ) {
 
 })
 
-app.get("/documents", (req, res) => {
-    res.render("docuemnts")
+app.get("/documents", isLoggedIn, (req, res) => {
+    res.render("documents")
 })
 
-app.get("/feedback", (req, res) => {
+app.get("/feedback", isLoggedIn, (req, res) => {
     res.render("feedback")
 })
 
@@ -86,7 +90,7 @@ app.get("/service", (req, res) => {
     res.render("service")
 })
 
-app.get("/issue", (req, res) => {
+app.get("/issue", isLoggedIn, (req, res) => {
     res.render("issue")
 })
 
@@ -106,18 +110,18 @@ app.get("/login", (req, res) => {
     res.render("login")
 })
 
-app.get("/details", (req, res) => {
+app.get("/details", isLoggedIn, (req, res) => {
     res.render("details")
 })
 
-app.get("/medical-history", (req, res) => {
+app.get("/medical-history", isLoggedIn, (req, res) => {
     res.render("medicalHistory")
 })
-app.get("/patient-history", (req, res) => {
+app.get("/patient-history", isLoggedIn, (req, res) => {
     res.render("patientHistory")
 })
 
-app.get("/home", (req, res) => {
+app.get("/home", isLoggedIn, (req, res) => {
     User.findById(req.user._id, (err, doc) => {
         if(err){
             console.log(err)
@@ -170,7 +174,7 @@ app.post("/login", passport.authenticate("local",
 }), function(req, res){
 });
 
-app.post("/details", (req, res) =>{
+app.post("/details", isLoggedIn, (req, res) =>{
     User.findByIdAndUpdate(req.user._id, { $set: {
         name: req.body.name,
         email: req.body.email,

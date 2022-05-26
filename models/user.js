@@ -10,7 +10,13 @@ var userSchema = new mongoose.Schema({
    description: String,
    email: String,
    qualification: String,
-   exp: String
+   exp: String,
+   appointments: [
+      {
+         type: mongoose.Schema.Types.ObjectId,
+         ref: "Appointment"
+      }
+   ]
 });
 
 userSchema.plugin(passPortLocalMongoose);
