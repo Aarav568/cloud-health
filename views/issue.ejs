@@ -1,3 +1,21 @@
 
 <%- include("partials/sideNav.ejs") %>
 
+<div class="content" style="padding: 10px; ">
+    <div class="notification is-success is-light">
+        <p>We are happy to help you!</p>
+    </div>
+    <form action="/issue" method="POST">
+        <div class="field" >
+            <label class="label">Topic For Your Concern</label>
+            <div class="control">
+              <input class="input" required type="text" placeholder="Topic" style="width: max-content">
+        </div>
+        <div class="field" style="padding: 50px" >
+            <label class="label">Describe Your Concern</label>
+            <div class="control">
+            <textarea class="textarea" required placeholder="Describe Your Concern Here......" rows="6" ></textarea>
+            </div>
+        <button class="button is-primary" type="submit">Submit</button>
+    </form>
+</div>

@@ -18,7 +18,33 @@
                 <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
             </div>
         </div>
-    <!--Blood Field-->
+    <!--Contact Field-->
+    <div class="field">
+        <label class="label" for="contact">Contact Number</label>
+        <div class="control has-icons-left">
+            <input type="string" name="contact" class="input" required minlength="10" maxlength="10">
+            <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
+        </div>
+    </div>
+    <%if(user.username.includes("@cloudhealth.com")){%>
+        <!--Qualifications Field-->
+        <div class="field">
+            <label class="label" for="qualifications">Your Qualifications</label>
+            <div class="control has-icons-left">
+                <input type="text" name="qualifications" class="input" required>
+                <span class="icon is-small is-left"><i class="fa fa-book" aria-hidden="true"></i></span>
+            </div>
+        </div>
+        <!--Exp Field-->
+        <div class="field">
+            <label class="label" for="experience">Experience (in years)</label>
+            <div class="control has-icons-left">
+                <input type="text" name="experience" class="input" required minlength="2" maxlength="2">
+                <span class="icon is-small is-left"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+            </div>
+        </div>
+    <%} else {%>
+        <!--Blood Field-->
         <div class="field">
             <label class="label" for="blood">Blood Group</label>
             <div class="control has-icons-left">
@@ -26,23 +52,18 @@
                 <span class="icon is-small is-left"><i class="fa fa-tint" aria-hidden="true"></i></span>
             </div>
         </div>
-    <!--Contact Field-->
+    
+    <!--Family Field-->
         <div class="field">
-            <label class="label" for="contact">Contact Number</label>
-            <div class="control has-icons-left">
-                <input type="string" name="contact" class="input" required minlength="10" maxlength="10">
-                <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
-            </div>
-        </div>
-    <!--Contact Field-->
-        <div class="field">
-            <label class="label" for="family">Family</label>
+            <label class="label" for="family">Family Contact (Emergency Contact No.)</label>
             <div class="control has-icons-left">
                 <input type="string" name="family" class="input" required minlength="10" maxlength="10">
                 <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
             </div>
         </div>
 
+    <%}%>
+    
     <!--Submit Btn-->
         <div class="field">
             <button class="button is-info is-rounded">Submit</button>

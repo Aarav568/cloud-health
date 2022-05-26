@@ -1,30 +1,62 @@
 <%- include("partials/sideNav.ejs") %>
 <!----------------------------------------------------PARTIAL------------------------------------------------------->
-<%console.log(user + "user")%>
 <div class="content" style="padding: 10px">
   <div class="notification is-success">
-    <p>Welcome to Cloud Health, what can we do for you today?</p>
+
+    <%if(user.username.includes("@cloudhealth")) {%>
+      <p>Hello Doctor! Have a great day!</p>
+    <%} else {%> 
+      <p>Welcome to Cloud Health, what can we do for you today?</p>
+    <%}%>
   </div>
   <div class="tile is-ancestor">
+    <%if(user.username.includes("@cloudhealth")) {%>
     <a class="tile is-parent" href="/appointment">
       <article class="tile is-child notification is-primary">
-        <p class="title">Book an Appointment</p>
+          <p class="title">Check Your Appointment</p>
+          <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+      </article>
+    </a>
+    <%} else {%> 
+      <a class="tile is-parent" href="/appointment">
+        <article class="tile is-child notification is-primary">
+          <p class="title">Book Appointments</p>
+          <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+        </article>
+      </a>
+    <%}%>
         
-        <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
-      </article>
-    </a>
-    <a class="tile is-parent" href="/call">
-      <article class="tile is-child box notification is-danger">
-        <p class="title">Call a Doctor</p>
-        <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
-      </article>
-    </a>
-    <a class="tile is-parent" href="/medical">
-      <article class="tile is-child box notification is-warning">
-        <p class="title">Submit Medical Documents</p>
-        <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
-      </article>
-    </a>
+      
+    <%if(user.username.includes("@cloudhealth")) {%>
+      <a class="tile is-parent" href="#">
+        <article class="tile is-child box notification is-danger">
+          <p class="title">View Your Patients</p>
+          <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+        </article>
+      </a>
+    <%} else {%> 
+      <a class="tile is-parent" href="#">
+        <article class="tile is-child box notification is-danger">
+          <p class="title">Call a Doctor</p>
+          <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+        </article>
+      </a>
+    <%}%>
+    <%if(user.username.includes("@cloudhealth")) {%>
+        <a class="tile is-parent" href="#">
+          <article class="tile is-child box notification is-warning">
+            <p class="title">Tasks</p>
+            <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+          </article>
+        </a>
+    <%} else {%> 
+        <a class="tile is-parent" href="#">
+          <article class="tile is-child box notification is-warning">
+            <p class="title">Submit Medical Documents</p>
+            <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
+          </article>
+        </a>
+    <%}%>
   </div>
   <div class="tile is-ancestor">
     <a class="tile is-parent" href="/issue">
@@ -41,18 +73,6 @@
     </a>
   </div>
 </div>
-<script type="text/javascript">
-  this.addEventListener('scroll', function() {
-    if(this.pageYOffset > 70){
-        document.querySelector(".sidebar").style.top = "0px"        
-    } else if (this.pageYOffset < 70) {
-        document.querySelector(".sidebar").removeAttribute("style")
-    }
-  });
-  if(this.outerWidth < 500){
-      document.getElementById("check").checked = true
-  }
-  </script>
   </body>
 </html>
 

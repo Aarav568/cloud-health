@@ -2,11 +2,15 @@
 
 
 <div class="content" style="padding: 10px">
-
-    <img src="/images/user.png" alt="">
+    <img src="/images/<%if(user.username.includes("@cloudhealth")) {%>download.jpg <%} else {%>user.png<%}%>" height="250" width="250" alt="">
     <h2><%=data.name%></h2>
-    <p style="align-items: right ; width: 100%;"><%=data.blood%></p>
-    <p><%=data.contact%></p>
-    <p><%=data.username%></p>
-    
+    <p>E-mail: <%=data.username%></p>
+    <p>Contact No.: <%=data.contact%></p>
+
+    <%if(user.username.includes("@cloudhealth")) {%>
+        <p>Qualifications: <%=data.qualification%></p>
+        <p>Experience: <%=data.exp%> YEARS</p>
+    <%} else {%>
+        <p>Blood Group: <%=data.blood%></p>
+    <%}%>
 </div>

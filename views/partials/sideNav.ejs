@@ -27,17 +27,46 @@
     </header>
     <!--header area end-->
     <!--sidebar start-->
-    <div class="sidebar" style="padding-top: 30px;">
+    <div class="sidebar" style="padding-top: 30px; <% if(user.username.includes("@cloudhealth")) {%> background : linear-gradient(to right, #e62829, #eb5954) <%}%>">
       <center>
-        <img src="images/download.jpg" class="profile_image" alt="">
-        <h1></h1>
+        <%if(user.username.includes("@cloudhealth")) {%>
+          <img src="images/download.jpg" class="profile_image" alt="">
+          <h1></h1>
+        <%} else {%> 
+          <img src="images/user.png" class="profile_image" alt="">
+          <h1></h1>
+        <%}%>
       </center>
-      <a href="/dash"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
-      <a href="/history"><i class="fas fa-cogs"></i><span>Medical History</span></a>
+      <a href="/home"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
+      <%if(user.username.includes("@cloudhealth")) {%>
+        <a href="/patient-history"><i class="fas fa-cogs"></i><span>Patient History</span></a>
+      <%} else {%> 
+        <a href="/medical-history"><i class="fas fa-cogs"></i><span>Medical History</span></a>
+      <%}%>
       <a href="/appointment"><i class="fas fa-table"></i><span>Your Appointments</span></a>
       <a href="/account"><i class="fas fa-th"></i><span>Account</span></a>
       <a href="/logout"><i class="fas fa-info-circle"></i><span>Logout</span></a>
     </div>
+
+    <script type="text/javascript">
+      this.addEventListener('scroll', function() {
+        if(this.pageYOffset > 70){
+            document.querySelector(".sidebar").style.top = "0px"      
+            <% if(user.username.includes("@cloudhealth")) {%> 
+              document.querySelector(".sidebar").style.background = "linear-gradient(to right, #e62829, #eb5954)"
+            <%}%>  
+        } else if (this.pageYOffset < 70) {
+            document.querySelector(".sidebar").removeAttribute("style")
+            <% if(user.username.includes("@cloudhealth")) {%> 
+              document.querySelector(".sidebar").style.background = "linear-gradient(to right, #e62829, #eb5954)"
+            <%}%>
+        }
+      });
+      if(this.outerWidth < 500){
+          document.getElementById("check").checked = true
+      }
+
+      </script>
     <!--sidebar end-->
 
 

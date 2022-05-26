@@ -8,7 +8,9 @@ var userSchema = new mongoose.Schema({
    blood: String,
    contact: Number,
    description: String,
-   email: String
+   email: String,
+   qualification: String,
+   exp: String
 });
 
 userSchema.plugin(passPortLocalMongoose);

@@ -14,16 +14,21 @@ app.use(require("express-session")({
     resave: false,
     saveUninitialized: false
 }));
+
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
 /* ------------------------------------Server Setup ---------------------------------- */
 mongoose.connect("mongodb+srv://admin:admin@hackathon.y7ydg.mongodb.net/?retryWrites=true&w=majority")
 app.use(bodyParser.urlencoded({extended: true}))
 app.set("view engine", "ejs")
-
+app.use(function(req, res, next){
+    res.locals.user = req.user;
+    next();
+});
 
 /*-------------------------------------Routes---------------------------------- */
 
@@ -38,9 +43,6 @@ app.get("/history", (req, res) => {
 app.get("/call", (req, res) => {
     res.render("call")
 })
-app.get("/feedback", (req, res) => {
-    res.render("feedback")
-})
 app.get("/issue", (req, res) => {
     res.render("issue")
 })
@@ -48,7 +50,11 @@ app.get("/medical", (req, res) => {
     res.render("medical")
 })
 app.get("/appointment", (req, res) => {
-    res.render("appointment")
+    if(req.user.username.includes("@cloudhealth.com")){
+        res.render("aptDoctor")
+    } else {
+        res.render("aptUser")
+    }
 })
 app.get("/registerdoctor", (req, res) => {
     res.render("register", {user: "doctor"})
@@ -64,18 +70,25 @@ app.get("/account",function(req, res ) {
 
 })
 
-app.get("/contact", (req, res) => {
-    res.render("contact")
+app.get("/documents", (req, res) => {
+    res.render("docuemnts")
 })
 
-app.get("/dash", (req, res) => {
-    
+app.get("/feedback", (req, res) => {
+    res.render("feedback")
+})
+
+app.get("/contact", (req, res) => {
+    res.render("contact")
 })
 
 app.get("/service", (req, res) => {
     res.render("service")
 })
 
+app.get("/issue", (req, res) => {
+    res.render("issue")
+})
 
 app.get("/", (req, res) => {
     res.render("index")
@@ -86,11 +99,22 @@ app.get("/about", (req, res) => {
 })
 
 app.get("/register", (req, res) => {
-    res.render("register", {user: "user"})
+    res.render("register")
 })
 
 app.get("/login", (req, res) => {
     res.render("login")
+})
+
+app.get("/details", (req, res) => {
+    res.render("details")
+})
+
+app.get("/medical-history", (req, res) => {
+    res.render("medicalHistory")
+})
+app.get("/patient-history", (req, res) => {
+    res.render("patientHistory")
 })
 
 app.get("/home", (req, res) => {
@@ -98,11 +122,10 @@ app.get("/home", (req, res) => {
         if(err){
             console.log(err)
         }
-        console.log(doc)
-        if(doc.username.includes("@cloudmail.com")){
-            res.render("home", {user: "doctor"} )
+        if(doc.username.includes("@cloudhealth.com")){
+            res.render("home")
         } else {
-            res.render("home", {user: "user"} )
+            res.render("home")
         }
     })
 })
@@ -123,9 +146,7 @@ app.get("/login", (req, res) => {
 /*------------------------POST----------------------------- */
 
 app.post("/register", (req, res) => {
-    console.log(req.body.doc)
-    if(req.body.doc == 1){
-        console.log("inside doc")
+    if(req.body.doc){
         var name = `${req.body.username}@cloudhealth.com`
     } else {
         var name = req.body.username
@@ -133,13 +154,13 @@ app.post("/register", (req, res) => {
     var newUser = new User({username: name});
     User.register(newUser, req.body.password, function(err, user){
        if(err){
-         return res.redirect("/register")
+            res.redirect("/register")
        }
-       passport.authenticate("local")(req, res, function(){
-
-         res.render("details", {user: req.user})
-       });
-    });    
+       req.login(user, (err) => {
+           if(err) {console.log(err)}
+           res.redirect("/details")
+       })
+    });
 })
 
 app.post("/login", passport.authenticate("local", 
@@ -155,7 +176,9 @@ app.post("/details", (req, res) =>{
         email: req.body.email,
         blood: req.body.blood,
         contact: req.body.contact,
-        description: req.body.description
+        description: req.body.description,
+        qualification: req.body.qualifications,
+        exp: req.body.experience
     }
     }, (err, doc) => {
         if(err){

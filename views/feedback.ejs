@@ -2,4 +2,21 @@
 <%- include("partials/sideNav.ejs") %>
 
 
-<div class=""> Enter Feedback<input type="text" >   </div>
+<div class="content" style="padding: 10px; ">
+    <div class="notification is-info is-light">
+        <p>Your Feedback means a lot to us...</p>
+    </div>
+    <form action="/issue" method="POST">
+        <div class="field" style="padding: 50px" >
+            <label class="label">Reviews</label>
+            <div class="control">
+            <textarea class="textarea" required placeholder="What do you think about us?" rows="6" ></textarea>
+        </div>
+        <div class="field" style="padding: 50px" >
+            <label class="label">Suggestions</label>
+            <div class="control">
+            <textarea class="textarea" required placeholder="How can we make ourselves better?" rows="6" ></textarea>
+        </div>
+        <button class="button is-primary" type="submit">Submit</button>
+    </form>
+</div>

@@ -3,16 +3,21 @@
         <!--Tittle-->
         <h3 class="title is-3">Sign-Up</h3>
         <!--Email Field-->
-        <div class="field">
             <%if(user=="doctor" ){%>
                 <label class="label" for="email">Username</label>
+                <div class="field has-addons">
                 <div class="control has-icons-left">
-                    <input type="string" name="username" class="input" required>
-                    <p style="display: inline;">@cloudhealth.com</p>
+                    <input type="text" name="username" id="#usr" class="input" required>
                     <input type="Number" value="1" hidden name="doc">
                     <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
                 </div>
+                <p class="control">
+                    <a class="button is-static">
+                      @cloudhealth.com
+                    </a>
+                </p>
                 <%} else {%>
+                    <div class="field">
                     <label class="label" for="email">E-Mail</label>
                     <div class="control has-icons-left">
                         <input type="email" name="username" class="input" required>
