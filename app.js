@@ -29,6 +29,38 @@ app.set("view engine", "ejs")
 
 /*------------------------GET----------------------------- */
 
+app.get("/logo", (req, res) => {
+    res.render("logo")
+})
+app.get("/history", (req, res) => {
+    res.render("history")
+})
+app.get("/call", (req, res) => {
+    res.render("call")
+})
+app.get("/feedback", (req, res) => {
+    res.render("feedback")
+})
+app.get("/issue", (req, res) => {
+    res.render("issue")
+})
+app.get("/medical", (req, res) => {
+    res.render("medical")
+})
+app.get("/appointment", (req, res) => {
+    res.render("appointment")
+})
+
+app.get("/account",function(req, res ) {
+    console.log("in")
+    User.findById(req.user._id, (err, doc) => {
+        if(err){
+            console.log(err)
+        }
+        res.render("account", {data: doc})
+    })
+
+})
 
 app.get("/contact", (req, res) => {
     res.render("contact")

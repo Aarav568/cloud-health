@@ -34,14 +34,15 @@
                 <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
             </div>
         </div>
-    <!--Description Field-->
+    <!--Contact Field-->
         <div class="field">
-            <label class="label" for="description">Medical Description (OPTIONAL)</label>
+            <label class="label" for="family">Family</label>
             <div class="control has-icons-left">
-                <input type="text" name="description" class="input">
-                <span class="icon is-small is-left"><i class="fa fa-plus-square" aria-hidden="true"></i></span>
+                <input type="string" name="family" class="input" required minlength="10" maxlength="10">
+                <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
             </div>
         </div>
+
     <!--Submit Btn-->
         <div class="field">
             <button class="button is-info is-rounded">Submit</button>
