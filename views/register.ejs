@@ -1,16 +1,28 @@
 <%- include("partials/authHeader.ejs") %>
-<form class="box" action="/register" method="POST">
-    <!--Tittle-->
+    <form class="box" action="/register" method="POST">
+        <!--Tittle-->
         <h3 class="title is-3">Sign-Up</h3>
-    <!--Email Field-->
+        <!--Email Field-->
         <div class="field">
-            <label class="label" for="email">E-mail</label>
-            <div class="control has-icons-left">
-                <input type="email" name="username" class="input" required>
-                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-            </div>
+            <%if(user=="doctor" ){%>
+                <label class="label" for="email">Username</label>
+                <div class="control has-icons-left">
+                    <input type="string" name="username" class="input" required>
+                    <p style="display: inline;">@cloudhealth.com</p>
+                    <input type="Number" value="1" hidden name="doc">
+                    <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                </div>
+                <%} else {%>
+                    <label class="label" for="email">E-Mail</label>
+                    <div class="control has-icons-left">
+                        <input type="email" name="username" class="input" required>
+                        <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                    </div>
+                <%}%>
+
+
         </div>
-    <!--Passw Field-->
+        <!--Passw Field-->
         <div class="field">
             <label class="label" for="password">Password</label>
             <div class="control has-icons-left">
@@ -19,11 +31,11 @@
             </div>
             <p class="help is-info" id="helper">Min 8 digits & Max 16 digits</p>
         </div>
-    <!--Submit Btn-->
+        <!--Submit Btn-->
         <div class="field">
             <button class="button is-info is-rounded">Submit</button>
         </div>
-    <!--Query-->
+        <!--Query-->
         <p>Already have an account?</p>
         <a href="/login">Login here</a>
-<%- include("partials/authFooter.ejs") %>
+        <%- include("partials/authFooter.ejs") %>

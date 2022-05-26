@@ -50,7 +50,9 @@ app.get("/medical", (req, res) => {
 app.get("/appointment", (req, res) => {
     res.render("appointment")
 })
-
+app.get("/registerdoctor", (req, res) => {
+    res.render("register", {user: "doctor"})
+})
 app.get("/account",function(req, res ) {
     console.log("in")
     User.findById(req.user._id, (err, doc) => {
@@ -67,7 +69,7 @@ app.get("/contact", (req, res) => {
 })
 
 app.get("/dash", (req, res) => {
-    res.render("dash")
+    
 })
 
 app.get("/service", (req, res) => {
@@ -84,7 +86,7 @@ app.get("/about", (req, res) => {
 })
 
 app.get("/register", (req, res) => {
-    res.render("register")
+    res.render("register", {user: "user"})
 })
 
 app.get("/login", (req, res) => {
@@ -92,7 +94,17 @@ app.get("/login", (req, res) => {
 })
 
 app.get("/home", (req, res) => {
-    res.render("home")
+    User.findById(req.user._id, (err, doc) => {
+        if(err){
+            console.log(err)
+        }
+        console.log(doc)
+        if(doc.username.includes("@cloudmail.com")){
+            res.render("home", {user: "doctor"} )
+        } else {
+            res.render("home", {user: "user"} )
+        }
+    })
 })
 
 app.get("/logout", (req, res)=>{
@@ -111,13 +123,20 @@ app.get("/login", (req, res) => {
 /*------------------------POST----------------------------- */
 
 app.post("/register", (req, res) => {
-    var name = req.body.name
-    var newUser = new User({username: req.body.username});
+    console.log(req.body.doc)
+    if(req.body.doc == 1){
+        console.log("inside doc")
+        var name = `${req.body.username}@cloudhealth.com`
+    } else {
+        var name = req.body.username
+    }
+    var newUser = new User({username: name});
     User.register(newUser, req.body.password, function(err, user){
        if(err){
          return res.redirect("/register")
        }
        passport.authenticate("local")(req, res, function(){
+
          res.render("details", {user: req.user})
        });
     });    
