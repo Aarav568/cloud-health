@@ -1,10 +1,40 @@
 <%- include("partials/sideNav.ejs") %>
 
 <div class="content" style="padding: 10px">
-    <div style="width:100%; text-align: center;">
-        <h1>Under Maintenance</h1>
-        <br>
-        <img src="/images/worker.png" height="250" width="325
-        " alt="">
+    <div class="fingerprint">
+        <img src="https://www.pngall.com/wp-content/uploads/2016/06/Fingerprint-Free-Download-PNG.png" height="500"
+            width="500" alt="">
+        <h3>Please wait while we scan your Fingerprint...</h3>
+    </div>
+    <div style="width:100%; text-align: center; display: none;" id="cont">
+        <h1>Upload Your Medical Documents</h1>
+        <div class="file is-info has-name">
+            <input type="text" name="subject" class="input" style="width: 35%; margin-right: 15px;"required placeholder="Medical Document Name">
+            <label class="file-label">
+              <input class="file-input" type="file" name="resume">
+              <span class="file-cta">
+                <span class="file-icon">
+                  <i class="fas fa-upload"></i>
+                </span>
+                <span class="file-label">
+                  Upload
+                </span>
+              </span>
+              <span class="file-name">
+                Select Your Medical Document Here!
+              </span>
+            </label>
+          </div>
+          <button class="button is-warning" style="display: block; margin-top: 15px">Submit</button>
     </div>
 </div>
+
+<script>
+    window.onload = function () {
+        setTimeout(function () {
+            document.querySelector(".fingerprint").style.display = "none"
+            document.querySelector("#cont").style.display = "block"
+            
+        }, 3000);
+    };
+</script>
