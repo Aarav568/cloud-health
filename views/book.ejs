@@ -1,0 +1,22 @@
+<%- include("partials/sideNav.ejs") %>
+
+
+<div class="content" style="padding: 10px">
+    <img src="/images/download.jpg" height="250" width="250" alt="">
+    <h2><%=doctor.name%></h2>
+    <p><%=doctor.qualification%></p>
+    <form action="/book" method="post">
+        <div class="field">
+            <div class="control has-icons-left">
+                <label class="label" for="date" style="display: inline">Pick a Date</label>
+                <input type="date" name="date" class="input" id="datepicker" style="width: 25%;"required>
+            </div>
+            <div  class="control" style="margin-top: 10px">
+                <input type="text" name="subject" class="input" id="datepicker" style="width: 35%;"required placeholder="Subject for meeting the doctor">
+            </div>
+        </div>
+        <input type="text" name="doctor" id="" value="<%=doctor._id%>" hidden>
+        <p>Address: <%=doctor.address%></p>
+        <button class="button is-success">Book</button>
+    </form>
+</div>

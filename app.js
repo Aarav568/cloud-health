@@ -6,6 +6,7 @@ const   express             = require("express"),
         passport            = require("passport"),
         LocalStrategy       = require("passport-local"),
         User                = require("./models/user.js")
+        Appointment                = require("./models/appointment.js")
 
 /*-------------------------------------Passport Set-Up---------------------------------- */
 app.use(express.static(__dirname + '/public'));
@@ -57,9 +58,25 @@ app.get("/appointment", isLoggedIn, (req, res) => {
     if(req.user.username.includes("@cloudhealth.com")){
         res.render("aptDoctor")
     } else {
-        res.render("aptUser")
+        User.find(
+            { "username": /@cloudhealth.com/i }, 
+            function(err,docs) { 
+                if(err) {
+                    console.log(err)
+                }
+                res.render("aptUser", {doctors: docs})
+            }
+        );
     }
 })
+
+app.get("/view-appointments", isLoggedIn, (req, res) => {
+    User.findById(req.user._id).populate("appointments").exec((err, doc) => {
+        if(err){console.log(err)}
+        res.render("view-appointments", {appointments: doc.appointments})
+    })
+})
+
 app.get("/registerdoctor", (req, res) => {
     res.render("register", {user: "doctor"})
 })
@@ -149,6 +166,15 @@ app.get("/login", (req, res) => {
 
 /*------------------------POST----------------------------- */
 
+app.post("/appointment", isLoggedIn, (req, res) => {
+    User.findById(req.body.doctorName, (err, doc) => {
+        if(err) {
+            console.log(err)
+        }
+        res.render("book", {doctor: doc})
+    })
+})
+
 app.post("/register", (req, res) => {
     if(req.body.doc){
         var name = `${req.body.username}@cloudhealth.com`
@@ -173,6 +199,28 @@ app.post("/login", passport.authenticate("local",
   failureRedirect: "/login"
 }), function(req, res){
 });
+
+app.post("/book", isLoggedIn, (req, res) => {
+    Appointment.create({
+        time: req.body.date,
+        subject: req.body.subject,
+        address: ""
+    }, (err, doc) => {
+        if(err){
+            console.log(err)
+        }
+        User.findById(req.user._id, (err, user) => {
+            if(err) {console.log(err)}
+            user.appointments.push(doc)
+            user.save()
+                User.findById(req.body.doctor, (err, doctor) => {
+                    if(err) {console.log(err)}
+                    doctor.appointments.push(doc)
+                    doctor.save()
+                })
+        })
+    })
+})
 
 app.post("/details", isLoggedIn, (req, res) =>{
     User.findByIdAndUpdate(req.user._id, { $set: {

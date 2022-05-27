@@ -12,6 +12,16 @@ body{
     left: 25px;
 }
 
+.table-header{
+  background-color: hsl(217, 71%, 53%);
+}
+.table-header h3{
+  position: relative;
+    top: 10px;
+  background-color: hsl(217, 71%, 53%);
+  color: white
+}
+
 .hero{
   margin-left: 2px;
   margin-bottom: 2px;
