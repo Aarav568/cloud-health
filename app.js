@@ -72,6 +72,7 @@ app.get("/calls", (req, res) => {
 app.get("/my-appointments", isLoggedIn, (req, res) => {
     User.findById(req.user._id).populate("appointments._id").exec((err, doctor) => {
         if (err) { console.log(err) }
+        if(doctor.appointments.length > 0){
         var apts = []
         var waiting = 0
         doctor.appointments.forEach((e, index, array) => {
@@ -87,7 +88,9 @@ app.get("/my-appointments", isLoggedIn, (req, res) => {
                     res.render("aptDoctor", { appointments: apts })
                 }
             })
-        })
+        })} else {
+            res.render("aptDoctor", { appointments: [] })
+        }
     })
 })
 
@@ -108,10 +111,8 @@ app.get("/view-appointments", isLoggedIn, (req, res) => {
                     subject: e._id.subject,
                     doctor: doctor.name
                 })
-                console.log(apts, "pushed new")
                 waiting++;
                 if (waiting === array.length) {
-                    console.log(apts, "before render")
                     res.render("view-appointments", { appointments: apts })
                 }
             })
@@ -261,7 +262,7 @@ app.post("/call", (req, res) => {
         time: new Date(),
         patient: req.user.name
     }
-    User.findById(req.body.doctorName, (err, doctor) => {
+    User.findById(req.body.usrId, (err, doctor) => {
         if (err) { console.log(err) }
         doctor.calls.push(call)
         doctor.save((err) => {

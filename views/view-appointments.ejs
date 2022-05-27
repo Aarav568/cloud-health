@@ -1,7 +1,4 @@
 <%- include("partials/sideNav.ejs") %>
-
-<%console.log(appointments)%>
-
 <div class="content" style="padding: 40px">
     <div style="width:100%; text-align: center;">
       <h1 style="margin-bottom: 15px; padding-bottom: 10px">Your Appointment</h1>
@@ -13,10 +10,10 @@
           <h3>Name</h3>
         </div>
         <div class="column table-header">
-          <h3>Time & Subject</h3>
+          <h3>Subject</h3>
         </div>
         <div class="column table-header">
-            <h3>Address</h3>
+            <h3>Time</h3>
         </div>
       </div>
       <%appointments.forEach(e => {%> 
@@ -30,11 +27,9 @@
             </div>
             <div class="column">
               <%=e.time%>
-              <br>
-              "<%=e.subject%>"
             </div>
             <div class="column">
-                <%=e.address%>
+              "<%=e.subject%>"
               <!-- <input type="text" name="doctorName" hidden value="<%=e._id%>">
               <button class="button is-primary">Choose</button> -->
             </div>

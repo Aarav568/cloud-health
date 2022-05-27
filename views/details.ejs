@@ -1,71 +1,71 @@
 <%- include("partials/authHeader.ejs") %>
-<form class="box" action="/details" method="POST">
-    <!--Tittle-->
-        <h3 class="title is-3">Personal Details</h3>
-    <!--Name Field-->
-        <div class="field">
-            <label class="label" for="name">Full Name</label>
-            <div class="control has-icons-left">
-                <input type="text" name="name" class="input" required>
-                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+<div class="content">
+    <form action="/details" method="POST">
+        <fieldset>
+        <!--Tittle-->
+        <h1 class="loginText">Personal Details</h1>
+        <!--Name Field-->
+        <div class="form-group">
+            <p for="name">Full Name</p>
+            <div class="input-group input-group-lg">
+                <input class="longerInput form-control" class="input" type="text" name="name" class="input" required>
             </div>
         </div>
-    <!--Email Field-->
-        <div class="field">
-            <label class="label" for="email">E-mail</label>
-            <div class="control has-icons-left">
-                <input type="email" name="username" class="input" required>
-                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+        <!--Email Field-->
+        <div class="form-group">
+            <p for="email">E-mail</p>
+            <div class="input-group input-group-lg">
+                <input class="longerInput form-control" class="input" type="email" name="username" class="input" required>
             </div>
         </div>
-    <!--Contact Field-->
-    <div class="field">
-        <label class="label" for="contact">Contact Number</label>
-        <div class="control has-icons-left">
-            <input type="string" name="contact" class="input" required minlength="10" maxlength="10">
-            <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
-        </div>
-    </div>
-    <%if(user.username.includes("@cloudhealth.com")){%>
-        <!--Qualifications Field-->
-        <div class="field">
-            <label class="label" for="qualifications">Your Qualifications</label>
-            <div class="control has-icons-left">
-                <input type="text" name="qualifications" class="input" required>
-                <span class="icon is-small is-left"><i class="fa fa-book" aria-hidden="true"></i></span>
+        <!--Contact Field-->
+        <div class="form-group">
+            <p for="contact">Contact Number</p>
+            <div class="input-group input-group-lg">
+                <input class="longerInput form-control" class="input" type="string" name="contact" class="input" required minlength="10" maxlength="10">
             </div>
         </div>
-        <!--Exp Field-->
-        <div class="field">
-            <label class="label" for="experience">Experience (in years)</label>
-            <div class="control has-icons-left">
-                <input type="text" name="experience" class="input" required minlength="2" maxlength="2">
-                <span class="icon is-small is-left"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+        <%if(user.username.includes("@cloudhealth.com")){%>
+            <!--Qualifications Field-->
+            <div class="form-group">
+                <p for="qualifications">Your Qualifications</p>
+                <div class="input-group input-group-lg">
+                    <input class="longerInput form-control" class="input" type="text" name="qualifications" class="input" required>
+                </div>
             </div>
-        </div>
-    <%} else {%>
-        <!--Blood Field-->
-        <div class="field">
-            <label class="label" for="blood">Blood Group</label>
-            <div class="control has-icons-left">
-                <input type="text" name="blood" class="input" required minlength="2" maxlength="2">
-                <span class="icon is-small is-left"><i class="fa fa-tint" aria-hidden="true"></i></span>
+            <!--Exp Field-->
+            <div class="form-group">
+                <p for="experience">Experience (in years)</p>
+                <div class="input-group input-group-lg">
+                    <input class="longerInput form-control" class="input" type="text" name="experience" class="input" required minlength="2" maxlength="2">
+                </div>
             </div>
-        </div>
-    
-    <!--Family Field-->
-        <div class="field">
-            <label class="label" for="family">Family Contact (Emergency Contact No.)</label>
-            <div class="control has-icons-left">
-                <input type="string" name="family" class="input" required minlength="10" maxlength="10">
-                <span class="icon is-small is-left"><i class="fa fa-address-book" aria-hidden="true"></i></span>
-            </div>
-        </div>
+            <%} else {%>
+                <!--Blood Field-->
+                <div class="form-group">
+                    <p for="blood">Blood Group</p>
+                    <div class="input-group input-group-lg">
+                        <input class="longerInput form-control" class="input" type="text" name="blood" class="input" required minlength="2" maxlength="2">
+                    </div>
+                </div>
 
-    <%}%>
-    
-    <!--Submit Btn-->
-        <div class="field">
-            <button class="button is-info is-rounded">Submit</button>
-        </div>
+                <!--Family Field-->
+                <div class="form-group">
+                    <p for="family">Family Contact (Emergency Contact No.)</p>
+                    <div class="input-group input-group-lg">
+                        <input class="longerInput form-control" class="input" type="string" name="family" class="input" required minlength="10" maxlength="10">
+
+                    </div>
+                </div>
+
+                <%}%>
+
+                    <!--Submit Btn-->
+                    <div class="form-group">
+                        <button type="submit" class="section-btn btn" style="background-color: #1dc9e3;"
+                data-wow-delay="1s">Submit</button>
+                    </div>
+                </fieldset>
+    </form>
+</div>
 <%- include("partials/authFooter.ejs") %>

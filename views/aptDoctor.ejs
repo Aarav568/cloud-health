@@ -1,5 +1,6 @@
 <%- include("partials/sideNav.ejs") %>
 <div class="content" style="padding: 40px">
+  <%if(appointments.length > 0) {%>
     <div style="width:100%; text-align: center;">
       <h1 style="margin-bottom: 15px; padding-bottom: 10px">Your Appointment</h1>
       <div class="columns">
@@ -36,4 +37,7 @@
         </form>
         <%})%>
     </div>
+    <%} else {%>
+      <h1>No Appointments</h1>
+    <%}%>
 </div>

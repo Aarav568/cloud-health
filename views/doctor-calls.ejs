@@ -1,17 +1,22 @@
 <%- include("partials/sideNav.ejs") %>
 
 <div class="content" style="padding: 10px">
-    <%calls.forEach(e=> {%>
-        <form action="/call">
-            <div class="notification is-warning">
-                <p>
-                    <%=e.patient%> called at <u>
-                            <%=e.time.slice(-55, -30)%>
-                        </u>
-                </p>
-                <input type="text" name="usrId" hidden value="<%=e._id%>">
-                <button class="button is-info">Schedule Now</button>
-            </div>
-        </form>
-        <%})%>
+    <%if(calls.length > 0) {%>
+        <%calls.forEach(e=> {%>
+            <form action="/call">
+                <div class="notification is-warning">
+                    <p>
+                        <%=e.patient%> called at <u>
+                                <%=e.time.slice(-55, -30)%>
+                            </u>
+                    </p>
+                    <input type="text" name="usrId" hidden value="<%=e._id%>">
+                    <button class="button is-info">Schedule Now</button>
+                </div>
+            </form>
+            <%})%>
+    <%} else {%>
+        <h1>No Consultations</h1>
+        <%}%>
+    
 </div>
