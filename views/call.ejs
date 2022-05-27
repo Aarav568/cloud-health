@@ -1,6 +1,39 @@
-
 <%- include("partials/sideNav.ejs") %>
 
-<div class="content" style="padding: 10px;">
-    <h1>No doctors available right now</h1>
+<div class="content" style="padding: 40px">
+    <div style="width:100%; text-align: center;">
+      <h1 style="margin-bottom: 15px; padding-bottom: 10px">Call a Doctor</h1>
+      <div class="columns">
+        <div class="column table-header">
+          <h3>Doctor</h3>
+        </div>
+        <div class="column table-header">
+          <h3>Name</h3>
+        </div>
+        <div class="column table-header">
+          <h3>Qualifications</h3>
+        </div>
+        <div class="column table-header">
+        </div>
+      </div>
+      <%doctors.forEach(e => {%> 
+        <form action="/call" method="post">
+        <div class="columns">
+            <div class="column">
+              AVATAR
+            </div>
+            <div class="column">
+              <%=e.name%>
+            </div>
+            <div class="column">
+              <%=e.qualification%>
+            </div>
+            <div class="column">
+              <input type="text" name="doctorName" hidden value="<%=e._id%>">
+              <button class="button is-primary"><i class="fa fa-phone" aria-hidden="true"></i> Call</button>
+            </div>
+          </div>
+        </form>
+        <%})%>
+    </div>
 </div>

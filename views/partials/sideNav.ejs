@@ -30,7 +30,7 @@
     <div class="sidebar" style="padding-top: 30px; <% if(user.username.includes("@cloudhealth")) {%> background : linear-gradient(to right, #e62829, #eb5954) <%}%>">
       <center>
         <%if(user.username.includes("@cloudhealth")) {%>
-          <img src="images/download.jpg" class="profile_image" alt="">
+          <img src="images/doctor.png" class="profile_image" alt="">
           <h1></h1>
         <%} else {%> 
           <img src="images/user.png" class="profile_image" alt="">
@@ -38,12 +38,15 @@
         <%}%>
       </center>
       <a href="/home"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
-      <%if(user.username.includes("@cloudhealth")) {%>
-        <a href="/patient-history"><i class="fas fa-cogs"></i><span>Patient History</span></a>
-      <%} else {%> 
+      <%if(!user.username.includes("@cloudhealth")) {%>
         <a href="/medical-history"><i class="fas fa-cogs"></i><span>Medical History</span></a>
       <%}%>
-      <a href="/view-appointments"><i class="fas fa-table"></i><span>Your Appointments</span></a>
+
+      <%if(user.username.includes("@cloudhealth")) {%>
+        <a href="/my-appointments"><i class="fas fa-table"></i><span>My Appointments</span></a>
+      <%} else {%> 
+        <a href="/view-appointments"><i class="fas fa-table"></i><span>Your Appointments</span></a>
+      <%}%>
       <a href="/account"><i class="fas fa-th"></i><span>Account</span></a>
       <a href="/logout"><i class="fas fa-info-circle"></i><span>Logout</span></a>
     </div>

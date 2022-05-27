@@ -2,13 +2,22 @@
 <!----------------------------------------------------PARTIAL------------------------------------------------------->
 <div class="content" style="padding: 10px">
   <div class="notification is-success">
-
     <%if(user.username.includes("@cloudhealth")) {%>
       <p>Hello Doctor! How are you doing today?</p>
     <%} else {%> 
       <p>Welcome to Cloud Health, what can we do for you today?</p>
     <%}%>
   </div>
+  <%if(user.calls.length > 0) {%>
+    <% user.calls.forEach(e => { %>
+      <form action="/read" method="post">
+        <div class="notification is-success">
+          <p><%=e.patient%> tried to call you at <%=e.time.slice(-55, -30)%></p>
+          <input type="text" name="callId" value="<%=e._id%>">
+          <button type="submit" class="delete"></button>
+        </div>
+      </form>
+    <%})}%>
   <div class="tile is-ancestor">
     <%if(user.username.includes("@cloudhealth")) {%>
     <a class="tile is-parent" href="/appointment">
@@ -28,14 +37,14 @@
         
       
     <%if(user.username.includes("@cloudhealth")) {%>
-      <a class="tile is-parent" href="#">
+      <a class="tile is-parent" href="/prescribe">
         <article class="tile is-child box notification is-danger">
-          <p class="title">View Your Patients</p>
+          <p class="title">Submit Prescription</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
         </article>
       </a>
     <%} else {%> 
-      <a class="tile is-parent" href="/call ">
+      <a class="tile is-parent" href="/call">
         <article class="tile is-child box notification is-danger">
           <p class="title">Call a Doctor</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
@@ -45,7 +54,7 @@
     <%if(user.username.includes("@cloudhealth")) {%>
         <a class="tile is-parent" href="#">
           <article class="tile is-child box notification is-warning">
-            <p class="title">Tasks</p>
+            <p class="title">Calls</p>
             <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
           </article>
         </a>

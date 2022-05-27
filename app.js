@@ -4,9 +4,11 @@ const express = require("express"),
     bodyParser = require("body-parser"),
     mongoose = require("mongoose"),
     passport = require("passport"),
+    multer = require("multer"),
     LocalStrategy = require("passport-local"),
-    User = require("./models/user.js")
-Appointment = require("./models/appointment.js")
+    User = require("./models/user.js"),
+    Appointment = require("./models/appointment.js"),
+    upload = multer({ dest: "uploads/" })
 
 /*-------------------------------------Passport Set-Up---------------------------------- */
 app.use(express.static(__dirname + '/public'));
@@ -42,11 +44,20 @@ function isLoggedIn(req, res, next) {
 
 /*------------------------GET----------------------------- */
 
-app.get("/history", isLoggedIn, (req, res) => {
-    res.render("history")
-})
 app.get("/call", isLoggedIn, (req, res) => {
-    res.render("call")
+    if (req.user.username.includes("@cloudhealth.com")) {
+        res.render("aptDoctor")
+    } else {
+        User.find(
+            { "username": /@cloudhealth.com/i },
+            function (err, docs) {
+                if (err) {
+                    console.log(err)
+                }
+                res.render("call", { doctors: docs })
+            }
+        );
+    }
 })
 app.get("/issue", isLoggedIn, (req, res) => {
     res.render("issue")
@@ -68,6 +79,32 @@ app.get("/appointment", isLoggedIn, (req, res) => {
             }
         );
     }
+})
+
+app.get("/my-appointments", isLoggedIn, (req, res) => {
+    User.findById(req.user._id).populate("appointments._id").exec((err, doctor) => {
+        if (err) { console.log(err) }
+        var apts = []
+        var waiting = 0
+        doctor.appointments.forEach((e, index, array) => {
+            User.findOne({ "username": { $not: /@cloudhealth.com/i }, appointments: { $elemMatch: { _id: e._id } } }, (err, user) => {
+                if (err) { console.log(err) }
+                apts.push({
+                    time: e._id.time,
+                    subject: e._id.subject,
+                    patient: user.name
+                })
+                waiting++;
+                if (waiting === array.length) {
+                    res.render("aptDoctor", { appointments: apts })
+                }
+            })
+        })
+    })
+})
+
+app.get("/prescribe", (req, res) => {
+    res.render("documents")
 })
 
 app.get("/view-appointments", isLoggedIn, (req, res) => {
@@ -148,7 +185,12 @@ app.get("/details", isLoggedIn, (req, res) => {
 })
 
 app.get("/medical-history", isLoggedIn, (req, res) => {
-    res.render("medicalHistory")
+    User.findById(req.user._id, (err, user) => {
+        if (err) {
+            console.log(err)
+        }
+        res.render("medicalHistory", { documents: user.documents })
+    })
 })
 app.get("/patient-history", isLoggedIn, (req, res) => {
     res.render("patientHistory")
@@ -175,6 +217,10 @@ app.get("/logout", (req, res) => {
         res.redirect("/")
     })
 })
+
+app.get('*', function (req, res) {
+    res.redirect("/")
+});
 
 app.get("/login", (req, res) => {
     res.render("/login")
@@ -207,6 +253,50 @@ app.post("/register", (req, res) => {
             res.redirect("/details")
         })
     });
+})
+
+app.post("/call", (req, res) => {
+
+    var call = {
+        time: new Date(),
+        patient: req.user.name
+    }
+    User.findById(req.body.doctorName, (err, doctor) => {
+        if (err) { console.log(err) }
+        doctor.calls.push(call)
+        doctor.save((err)=> {
+            if(err){console.log(err)}
+            res.render("calling", {doctor: doctor})
+        })
+    })
+})
+
+app.post("/documents", upload.single("file"), (req, res) => {
+    var today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    today = dd + '/' + mm + '/' + yyyy;
+    User.findById(req.user._id, (err, user) => {
+        user.documents.push({
+            filename: req.body.name,
+            fileType: req.file.mimetype,
+            size: req.file.size / 1000 + "  kb",
+            date: today
+        })
+        user.save()
+        res.redirect("/medical-history")
+    })
+})
+
+app.post("/read", (req, res) => {
+    // User.findById(req.user._id, (err, doctor) => {
+
+    // })
 })
 
 app.post("/login", passport.authenticate("local",

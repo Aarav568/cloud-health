@@ -1,21 +1,42 @@
 <%- include("partials/sideNav.ejs") %>
 
-<div class="content" style="padding: 10px">
-    <div class="fingerprint">
-        <img src="https://www.pngall.com/wp-content/uploads/2016/06/Fingerprint-Free-Download-PNG.png" height="500"
-            width="500" alt="">
-        <h3>Please wait while we scan your Fingerprint...</h3>
+    <div class="content" style="padding: 10px">
+        <div class="fingerprint">
+            <img src="images/fingerprint.png" height="500" width="500" alt="">
+            <h3>Please wait while we scan your Fingerprint...</h3>
+        </div>
+        <div style="width:100%; text-align: center; display: none " id="cont">
+            <h1>Your Medical Documents</h1>
+                <div class="tile is-ancestor">
+                    <%documents.forEach(e=> {%>
+                    <a class="tile is-parent" href="#" style="max-width: 250px">
+                        <article class="tile is-child notification is-primary">
+                            <p class="title">
+                                <%=e.filename%>
+                            </p>
+                            <p>
+                                <%=e.date%>
+                            </p>
+                            <p>
+                                <%=e.size%>
+                            </p>
+                            <p>
+                                <%=e.fileType%>
+                            </p>
+                        </article>
+                    </a>
+                    <%})%>
+                </div>
+        </div>
     </div>
-    <h2 style="display: none">Sorry, you don't have any medical history</h2>
-</div>
 
-<script>
-    window.onload = function () {
-        setTimeout(function () {
-            document.querySelector(".fingerprint").style.display = "none"
+    <script>
+        window.onload = function () {
             setTimeout(function () {
-                document.querySelector("h2").style.display = "block"
-            }, 1000);
-        }, 3000);
-    };
-</script>
+                document.querySelector(".fingerprint").style.display = "none"
+                setTimeout(function () {
+                    document.querySelector("#cont").style.display = "block"
+                }, 1000);
+            }, 3000);
+        };
+    </script>

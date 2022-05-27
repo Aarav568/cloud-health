@@ -16,7 +16,22 @@ var userSchema = new mongoose.Schema({
          type: mongoose.Schema.Types.ObjectId,
          ref: "Appointment"
       }
-   }]
+   }],
+   documents: [
+      {
+         filename: String,
+         fileType: String,
+         size: String,
+         date: String
+      }
+   ],
+   calls: [
+      {
+         patient: String,
+         time: String,
+         read: {type: Boolean, default: false}
+      }
+   ]
 });
 
 userSchema.plugin(passPortLocalMongoose);
