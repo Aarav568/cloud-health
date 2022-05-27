@@ -1,5 +1,19 @@
 <%- include("partials/sideNav.ejs") %>
 <!----------------------------------------------------PARTIAL------------------------------------------------------->
+<!-- <div class="area" >
+  <ul class="circles">
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+  </ul>
+</div > -->
 <div class="content" style="padding: 10px">
   <div class="notification is-success">
     <%if(user.username.includes("@cloudhealth")) {%>
@@ -10,24 +24,24 @@
   </div>
   <%if(user.calls.length > 0) {%>
     <% user.calls.forEach(e => { %>
-      <form action="/read" method="post">
-        <div class="notification is-success">
-          <p><%=e.patient%> tried to call you at <%=e.time.slice(-55, -30)%></p>
-          <input type="text" name="callId" value="<%=e._id%>">
+      <%if(!e.read) {%>
+      <form action="/read" method="post" class="notification is-success is-light">
+          <p><%=e.patient%> tried to call you at <u><%=e.time.slice(-55, -30)%></u></p>
+          <input type="text" name="callId" value="<%=e._id%>" hidden>
           <button type="submit" class="delete"></button>
-        </div>
       </form>
+      <%}%>
     <%})}%>
   <div class="tile is-ancestor">
     <%if(user.username.includes("@cloudhealth")) {%>
-    <a class="tile is-parent" href="/appointment">
+    <a class="tile is-parent" href="/my-appointments">
       <article class="tile is-child notification is-primary">
           <p class="title">Check Your Appointment</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
       </article>
     </a>
     <%} else {%> 
-      <a class="tile is-parent" href="/appointment">
+      <a class="tile is-parent" href="/book-appointment">
         <article class="tile is-child notification is-primary">
           <p class="title">Book Appointments</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
@@ -46,15 +60,15 @@
     <%} else {%> 
       <a class="tile is-parent" href="/call">
         <article class="tile is-child box notification is-danger">
-          <p class="title">Call a Doctor</p>
+          <p class="title">Consult a Doctor Now!</p>
           <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
         </article>
       </a>
     <%}%>
     <%if(user.username.includes("@cloudhealth")) {%>
-        <a class="tile is-parent" href="#">
+        <a class="tile is-parent" href="/calls">
           <article class="tile is-child box notification is-warning">
-            <p class="title">Calls</p>
+            <p class="title">Consultations</p>
             <p class="subtitle"><i class="fa fa-arrow-right" aria-hidden="true"></i></p>
           </article>
         </a>

@@ -6,6 +6,7 @@
             <h3>Please wait while we scan your Fingerprint...</h3>
         </div>
         <div style="width:100%; text-align: center; display: none " id="cont">
+            <%if(documents.length > 0) {%>
             <h1>Your Medical Documents</h1>
                 <div class="tile is-ancestor">
                     <%documents.forEach(e=> {%>
@@ -27,6 +28,9 @@
                     </a>
                     <%})%>
                 </div>
+                <%} else {%>
+                    <h1>No Medical Documents Found</h1>
+                    <%}%>
         </div>
     </div>
 

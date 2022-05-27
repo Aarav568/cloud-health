@@ -45,19 +45,15 @@ function isLoggedIn(req, res, next) {
 /*------------------------GET----------------------------- */
 
 app.get("/call", isLoggedIn, (req, res) => {
-    if (req.user.username.includes("@cloudhealth.com")) {
-        res.render("aptDoctor")
-    } else {
-        User.find(
-            { "username": /@cloudhealth.com/i },
-            function (err, docs) {
-                if (err) {
-                    console.log(err)
-                }
-                res.render("call", { doctors: docs })
+    User.find(
+        { "username": /@cloudhealth.com/i },
+        function (err, docs) {
+            if (err) {
+                console.log(err)
             }
-        );
-    }
+            res.render("call", { doctors: docs })
+        }
+    );
 })
 app.get("/issue", isLoggedIn, (req, res) => {
     res.render("issue")
@@ -65,20 +61,12 @@ app.get("/issue", isLoggedIn, (req, res) => {
 app.get("/medical", isLoggedIn, (req, res) => {
     res.render("medical")
 })
-app.get("/appointment", isLoggedIn, (req, res) => {
-    if (req.user.username.includes("@cloudhealth.com")) {
-        res.render("aptDoctor")
-    } else {
-        User.find(
-            { "username": /@cloudhealth.com/i },
-            function (err, docs) {
-                if (err) {
-                    console.log(err)
-                }
-                res.render("aptUser", { doctors: docs })
-            }
-        );
-    }
+
+app.get("/calls", (req, res) => {
+    User.findById(req.user._id, (err, doctor) => {
+        if (err) { console.log(err) }
+        res.render("doctor-calls", { calls: doctor.calls })
+    })
 })
 
 app.get("/my-appointments", isLoggedIn, (req, res) => {
@@ -218,18 +206,30 @@ app.get("/logout", (req, res) => {
     })
 })
 
-app.get('*', function (req, res) {
-    res.redirect("/")
-});
+// app.get('*', function (req, res) {
+//     res.redirect("/")
+// });
 
 app.get("/login", (req, res) => {
     res.render("/login")
 })
 
+app.get("/book-appointment", (req, res) =>{
+    User.find(
+        { "username": /@cloudhealth.com/i },
+        function (err, docs) {
+            if (err) {
+                console.log(err)
+            }
+            res.render("aptUser", { doctors: docs })
+        }
+    );
+})
+
 /*------------------------POST----------------------------- */
 
 app.post("/appointment", isLoggedIn, (req, res) => {
-    User.findById(req.body.doctorName, (err, doc) => {
+    User.findById(req.body.usrId, (err, doc) => {
         if (err) {
             console.log(err)
         }
@@ -264,9 +264,9 @@ app.post("/call", (req, res) => {
     User.findById(req.body.doctorName, (err, doctor) => {
         if (err) { console.log(err) }
         doctor.calls.push(call)
-        doctor.save((err)=> {
-            if(err){console.log(err)}
-            res.render("calling", {doctor: doctor})
+        doctor.save((err) => {
+            if (err) { console.log(err) }
+            res.render("calling", { doctor: doctor })
         })
     })
 })
@@ -294,9 +294,12 @@ app.post("/documents", upload.single("file"), (req, res) => {
 })
 
 app.post("/read", (req, res) => {
-    // User.findById(req.user._id, (err, doctor) => {
-
-    // })
+    User.findById(req.user._id, (err, doctor) => {
+        var objIndex = doctor.calls.findIndex((obj => obj._id == req.body.callId));
+        doctor.calls[objIndex].read = true
+        doctor.save()
+        res.redirect("/home")
+    })
 })
 
 app.post("/login", passport.authenticate("local",

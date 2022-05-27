@@ -1,7 +1,4 @@
 <%- include("partials/sideNav.ejs") %>
-
-<%console.log(appointments)%>
-
 <div class="content" style="padding: 40px">
     <div style="width:100%; text-align: center;">
       <h1 style="margin-bottom: 15px; padding-bottom: 10px">Your Appointment</h1>
@@ -23,7 +20,7 @@
         <form action="/appointment" method="post">
         <div class="columns">
             <div class="column">
-              AVATAR
+              <img src="/images/user.png" height="70" width="70" alt="">
             </div>
             <div class="column">
               <%=e.patient%>

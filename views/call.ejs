@@ -2,7 +2,7 @@
 
 <div class="content" style="padding: 40px">
     <div style="width:100%; text-align: center;">
-      <h1 style="margin-bottom: 15px; padding-bottom: 10px">Call a Doctor</h1>
+      <h1 style="margin-bottom: 15px; padding-bottom: 10px">Consult a Doctor</h1>
       <div class="columns">
         <div class="column table-header">
           <h3>Doctor</h3>
@@ -20,7 +20,7 @@
         <form action="/call" method="post">
         <div class="columns">
             <div class="column">
-              AVATAR
+              <img src="/images/doctor.png" height="70" width="70" alt="">
             </div>
             <div class="column">
               <%=e.name%>
@@ -29,8 +29,8 @@
               <%=e.qualification%>
             </div>
             <div class="column">
-              <input type="text" name="doctorName" hidden value="<%=e._id%>">
-              <button class="button is-primary"><i class="fa fa-phone" aria-hidden="true"></i> Call</button>
+              <input type="text" name="usrId" hidden value="<%=e._id%>">
+              <button class="button is-primary"> Consult Now</button>
             </div>
           </div>
         </form>

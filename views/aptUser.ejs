@@ -16,11 +16,11 @@
         <div class="column table-header">
         </div>
       </div>
-      <%doctors.forEach(e => {%> 
+      <%doctors.forEach(e => {%>
         <form action="/appointment" method="post">
         <div class="columns">
             <div class="column">
-              AVATAR
+              <img src="/images/doctor.png" height="70" width="70" alt="">
             </div>
             <div class="column">
               <%=e.name%>
@@ -29,7 +29,7 @@
               <%=e.qualification%>
             </div>
             <div class="column">
-              <input type="text" name="doctorName" hidden value="<%=e._id%>">
+              <input type="text" name="usrId" hidden value="<%=e._id%>">
               <button class="button is-primary">Choose</button>
             </div>
           </div>
