@@ -1,12 +1,12 @@
 /*----------------------------------------Initialization----------------------------- */
-const   express             = require("express"),
-        app                 = express(),
-        bodyParser          = require("body-parser"),
-        mongoose            = require("mongoose"),
-        passport            = require("passport"),
-        LocalStrategy       = require("passport-local"),
-        User                = require("./models/user.js")
-        Appointment                = require("./models/appointment.js")
+const express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    mongoose = require("mongoose"),
+    passport = require("passport"),
+    LocalStrategy = require("passport-local"),
+    User = require("./models/user.js")
+Appointment = require("./models/appointment.js")
 
 /*-------------------------------------Passport Set-Up---------------------------------- */
 app.use(express.static(__dirname + '/public'));
@@ -24,9 +24,9 @@ passport.deserializeUser(User.deserializeUser());
 
 /* ------------------------------------Server Setup ---------------------------------- */
 mongoose.connect("mongodb+srv://admin:admin@hackathon.y7ydg.mongodb.net/?retryWrites=true&w=majority")
-app.use(bodyParser.urlencoded({extended: true}))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
-app.use(function(req, res, next){
+app.use(function (req, res, next) {
     res.locals.user = req.user;
     next();
 });
@@ -55,38 +55,54 @@ app.get("/medical", isLoggedIn, (req, res) => {
     res.render("medical")
 })
 app.get("/appointment", isLoggedIn, (req, res) => {
-    if(req.user.username.includes("@cloudhealth.com")){
+    if (req.user.username.includes("@cloudhealth.com")) {
         res.render("aptDoctor")
     } else {
         User.find(
-            { "username": /@cloudhealth.com/i }, 
-            function(err,docs) { 
-                if(err) {
+            { "username": /@cloudhealth.com/i },
+            function (err, docs) {
+                if (err) {
                     console.log(err)
                 }
-                res.render("aptUser", {doctors: docs})
+                res.render("aptUser", { doctors: docs })
             }
         );
     }
 })
 
 app.get("/view-appointments", isLoggedIn, (req, res) => {
-    User.findById(req.user._id).populate("appointments").exec((err, doc) => {
-        if(err){console.log(err)}
-        res.render("view-appointments", {appointments: doc.appointments})
+    User.findById(req.user._id).populate("appointments._id").exec((err, user) => {
+        if (err) { console.log(err) }
+        var apts = []
+        var waiting = 0
+        user.appointments.forEach((e, index, array) => {
+            User.findOne({ "username": /@cloudhealth.com/i, appointments: { $elemMatch: { _id: e._id } } }, (err, doctor) => {
+                if (err) { console.log(err) }
+                apts.push({
+                    time: e._id.time,
+                    subject: e._id.subject,
+                    doctor: doctor.name
+                })
+                console.log(apts, "pushed new")
+                waiting++;
+                if (waiting === array.length) {
+                    console.log(apts, "before render")
+                    res.render("view-appointments", { appointments: apts })
+                }
+            })
+        })
     })
 })
 
 app.get("/registerdoctor", (req, res) => {
-    res.render("register", {user: "doctor"})
+    res.render("register", { user: "doctor" })
 })
-app.get("/account", isLoggedIn ,function(req, res ) {
-    console.log("in")
+app.get("/account", isLoggedIn, function (req, res) {
     User.findById(req.user._id, (err, doc) => {
-        if(err){
+        if (err) {
             console.log(err)
         }
-        res.render("account", {data: doc})
+        res.render("account", { data: doc })
     })
 
 })
@@ -140,10 +156,10 @@ app.get("/patient-history", isLoggedIn, (req, res) => {
 
 app.get("/home", isLoggedIn, (req, res) => {
     User.findById(req.user._id, (err, doc) => {
-        if(err){
+        if (err) {
             console.log(err)
         }
-        if(doc.username.includes("@cloudhealth.com")){
+        if (doc.username.includes("@cloudhealth.com")) {
             res.render("home")
         } else {
             res.render("home")
@@ -151,9 +167,9 @@ app.get("/home", isLoggedIn, (req, res) => {
     })
 })
 
-app.get("/logout", (req, res)=>{
+app.get("/logout", (req, res) => {
     req.logout((err) => {
-        if(err) {
+        if (err) {
             console.log(err)
         }
         res.redirect("/")
@@ -168,37 +184,37 @@ app.get("/login", (req, res) => {
 
 app.post("/appointment", isLoggedIn, (req, res) => {
     User.findById(req.body.doctorName, (err, doc) => {
-        if(err) {
+        if (err) {
             console.log(err)
         }
-        res.render("book", {doctor: doc})
+        res.render("book", { doctor: doc })
     })
 })
 
 app.post("/register", (req, res) => {
-    if(req.body.doc){
+    if (req.body.doc) {
         var name = `${req.body.username}@cloudhealth.com`
     } else {
         var name = req.body.username
     }
-    var newUser = new User({username: name});
-    User.register(newUser, req.body.password, function(err, user){
-       if(err){
+    var newUser = new User({ username: name });
+    User.register(newUser, req.body.password, function (err, user) {
+        if (err) {
             res.redirect("/register")
-       }
-       req.login(user, (err) => {
-           if(err) {console.log(err)}
-           res.redirect("/details")
-       })
+        }
+        req.login(user, (err) => {
+            if (err) { console.log(err) }
+            res.redirect("/details")
+        })
     });
 })
 
-app.post("/login", passport.authenticate("local", 
-{
-  successRedirect: "/home",
-  failureRedirect: "/login"
-}), function(req, res){
-});
+app.post("/login", passport.authenticate("local",
+    {
+        successRedirect: "/home",
+        failureRedirect: "/login"
+    }), function (req, res) {
+    });
 
 app.post("/book", isLoggedIn, (req, res) => {
     Appointment.create({
@@ -206,34 +222,38 @@ app.post("/book", isLoggedIn, (req, res) => {
         subject: req.body.subject,
         address: ""
     }, (err, doc) => {
-        if(err){
+        if (err) {
             console.log(err)
         }
         User.findById(req.user._id, (err, user) => {
-            if(err) {console.log(err)}
+            if (err) { console.log(err) }
             user.appointments.push(doc)
             user.save()
-                User.findById(req.body.doctor, (err, doctor) => {
-                    if(err) {console.log(err)}
-                    doctor.appointments.push(doc)
-                    doctor.save()
+            User.findById(req.body.doctor, (err, doctor) => {
+                if (err) { console.log(err) }
+                doctor.appointments.push(doc)
+                doctor.save((err) => {
+                    if (err) { console.log(err) }
+                    res.redirect("/home")
                 })
+            })
         })
     })
 })
 
-app.post("/details", isLoggedIn, (req, res) =>{
-    User.findByIdAndUpdate(req.user._id, { $set: {
-        name: req.body.name,
-        email: req.body.email,
-        blood: req.body.blood,
-        contact: req.body.contact,
-        description: req.body.description,
-        qualification: req.body.qualifications,
-        exp: req.body.experience
-    }
+app.post("/details", isLoggedIn, (req, res) => {
+    User.findByIdAndUpdate(req.user._id, {
+        $set: {
+            name: req.body.name,
+            email: req.body.email,
+            blood: req.body.blood,
+            contact: req.body.contact,
+            description: req.body.description,
+            qualification: req.body.qualifications,
+            exp: req.body.experience
+        }
     }, (err, doc) => {
-        if(err){
+        if (err) {
             console.log(err)
         }
         res.redirect("/home")

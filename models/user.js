@@ -11,12 +11,12 @@ var userSchema = new mongoose.Schema({
    email: String,
    qualification: {type: String, sparse: true},
    exp: {type: String, sparse: true},
-   appointments: [
-      {
+   appointments: [{
+      _id :  {
          type: mongoose.Schema.Types.ObjectId,
          ref: "Appointment"
       }
-   ]
+   }]
 });
 
 userSchema.plugin(passPortLocalMongoose);
