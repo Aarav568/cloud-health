@@ -3,15 +3,20 @@
 <div class="content" style="padding: 10px">
     <%if(calls.length > 0) {%>
         <%calls.forEach(e=> {%>
-            <form action="/call">
+            <%console.log(e)%>
+            <form action="/book" method="post">
                 <div class="notification is-warning">
                     <p>
                         <%=e.patient%> called at <u>
                                 <%=e.time.slice(-55, -30)%>
                             </u>
                     </p>
-                    <input type="text" name="usrId" hidden value="<%=e._id%>">
-                    <button class="button is-info">Schedule Now</button>
+                    <%console.log(e)%>
+                    <input type="text" name="schedule" hidden value="1">
+                    <input type="text" name="date" hidden value="<%=e.time.slice(-55, -39)%>">
+                    <input type="text" name="subject" hidden value="Consultation Call">
+                    <input type="text" name="name" hidden value="<%=e.patient%>">
+                    <button class="button is-info" type="submit">Schedule Now</button>
                 </div>
             </form>
             <%})%>

@@ -2,21 +2,49 @@
 
 
 <div class="content" style="padding: 10px">
-    <img src="/images/doctor.png" height="250" width="250" alt="">
-    <h2><%=doctor.name%></h2>
-    <p><%=doctor.qualification%></p>
-    <form action="/book" method="post">
-        <div class="field">
-            <div class="control has-icons-left">
-                <label class="label" for="date" style="display: inline">Pick a Date</label>
-                <input type="date" name="date" class="input" id="datepicker" style="width: 25%;"required>
+    <%if(user.username.includes("@cloudmail.com")) {%>
+        <img src="/images/doctor.png" height="250" width="250" alt="">
+        <h2>
+            <%=doc.name%>
+        </h2>
+        <p>
+            <%=doc.subject%>
+        </p>
+        <form action="/book" method="post">
+            <div class="field">
+                <div class="control has-icons-left">
+                    <label class="label" for="date" style="display: inline">Pick a Date</label>
+                    <input type="date" name="date" class="input" id="datepicker" style="width: 25%;" required>
+                </div>
+                <div class="control" style="margin-top: 10px">
+                    <input type="text" name="subject" class="input" id="datepicker" style="width: 35%;" required
+                        placeholder="Subject for meeting the doctor">
+                </div>
             </div>
-            <div  class="control" style="margin-top: 10px">
-                <input type="text" name="subject" class="input" id="datepicker" style="width: 35%;"required placeholder="Subject for meeting the doctor">
-            </div>
-        </div>
-        <input type="text" name="doctor" id="" value="<%=doctor._id%>" hidden>
-        <button class="button is-success">Book</button>
-    </form>
+            <input type="text" name="doctor" id="" value="<%=doc._id%>" hidden>
+            <button class="button is-success">Book</button>
+        </form>
+        <%} else {%>
+            <img src="/images/doctor.png" height="250" width="250" alt="">
+            <h2>
+                <%=doc.name%>
+            </h2>
+            <p>
+                <%=doc.qualification%>
+            </p>
+            <form action="/book" method="post">
+                <div class="field">
+                    <div class="control has-icons-left">
+                        <label class="label" for="date" style="display: inline">Pick a Date</label>
+                        <input type="date" name="date" class="input" id="datepicker" style="width: 25%;" required>
+                    </div>
+                    <div class="control" style="margin-top: 10px">
+                        <input type="text" name="subject" class="input" id="datepicker" style="width: 35%;" required
+                            placeholder="Subject for meeting the doctor">
+                    </div>
+                </div>
+                <input type="text" name="doctor" id="" value="<%=doc._id%>" hidden>
+                <button class="button is-success">Book</button>
+            </form>
+            <%}%>
 </div>
- 

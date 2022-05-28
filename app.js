@@ -78,6 +78,7 @@ app.get("/my-appointments", isLoggedIn, (req, res) => {
         doctor.appointments.forEach((e, index, array) => {
             User.findOne({ "username": { $not: /@cloudhealth.com/i }, appointments: { $elemMatch: { _id: e._id } } }, (err, user) => {
                 if (err) { console.log(err) }
+                console.log(user)
                 apts.push({
                     time: e._id.time,
                     subject: e._id.subject,
@@ -234,7 +235,7 @@ app.post("/appointment", isLoggedIn, (req, res) => {
         if (err) {
             console.log(err)
         }
-        res.render("book", { doctor: doc })
+        res.render("book", { doc: doc })
     })
 })
 
@@ -314,15 +315,24 @@ app.post("/book", isLoggedIn, (req, res) => {
     Appointment.create({
         time: req.body.date,
         subject: req.body.subject,
-        address: ""
     }, (err, doc) => {
         if (err) {
             console.log(err)
         }
-        User.findById(req.user._id, (err, user) => {
+        User.findById(req.user._id, (err, user) => {            
             if (err) { console.log(err) }
             user.appointments.push(doc)
             user.save()
+            if(req.body.schedule){
+                User.findOne({name: req.body.name}, (err, doctor) => {
+                    if (err) { console.log(err) }
+                    doctor.appointments.push(doc)
+                    doctor.save((err) => {
+                        if (err) { console.log(err) }
+                        res.redirect("/home")
+                    })
+                })
+            } else {
             User.findById(req.body.doctor, (err, doctor) => {
                 if (err) { console.log(err) }
                 doctor.appointments.push(doc)
@@ -330,7 +340,7 @@ app.post("/book", isLoggedIn, (req, res) => {
                     if (err) { console.log(err) }
                     res.redirect("/home")
                 })
-            })
+            })}
         })
     })
 })
