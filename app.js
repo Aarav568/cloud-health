@@ -367,6 +367,6 @@ app.post("/details", isLoggedIn, (req, res) => {
 /*-------------------------------------Routes END---------------------------------- */
 
 /*-------------------------------------Server Int--------------------------------- */
-app.listen("3000", () => {
+app.listen(process.env.PORT || "3000", (req, res) => {
     console.log("server started")
 })
