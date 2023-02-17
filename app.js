@@ -9,7 +9,7 @@ const express = require("express"),
     User = require("./models/user.js"),
     Appointment = require("./models/appointment.js"),
     upload = multer({ dest: "uploads/" })
-
+    dotenv = require("dotenv").config()
 /*-------------------------------------Passport Set-Up---------------------------------- */
 app.use(express.static(__dirname + '/public'));
 app.use(require("express-session")({
@@ -25,7 +25,7 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 /* ------------------------------------Server Setup ---------------------------------- */
-mongoose.connect("mongodb+srv://admin:admin@hackathon.y7ydg.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect(process.env.MONGODB_URI)
 app.use(bodyParser.urlencoded({ extended: true }))
 app.set("view engine", "ejs")
 app.use(function (req, res, next) {
